@@ -1,0 +1,130 @@
+
+<section>
+  <div class="encabezado">
+    <div>
+      <h1>🎬 Catálogo de películas</h1>
+      <p>
+        Explora el catálogo y agrega películas
+        a tus maratones.
+      </p>
+    </div>
+
+    <div>
+      <label for="genero">
+        Filtrar por género
+      </label>
+
+      <select
+        id="genero"
+        [(ngModel)]="generoSeleccionado">
+
+        @for (genero of generos; track genero) {
+          <option [value]="genero">
+            {{ genero }}
+          </option>
+        }
+      </select>
+    </div>
+  </div>
+
+  @if (cargando) {
+    <p>Cargando películas...</p>
+  }
+
+  @if (error && !peliculaSeleccionada) {
+    <p class="mensaje-error">{{ error }}</p>
+  }
+
+  <div class="galeria">
+    @for (
+      pelicula of peliculasFiltradas;
+      track pelicula.id
+    ) {
+      <article class="tarjeta pelicula-card">
+        <div class="poster">🎥</div>
+
+        <h2>{{ pelicula.titulo }}</h2>
+
+        <p>
+          <strong>Género:</strong>
+          {{ pelicula.genero }}
+        </p>
+
+        <p>
+          <strong>Año:</strong>
+          {{ pelicula.anio }}
+        </p>
+
+        <p>
+          <strong>Duración:</strong>
+          {{ pelicula.duracion }} minutos
+        </p>
+
+        @if (pelicula.duracion > 150) {
+          <span class="etiqueta">
+            Larga duración
+          </span>
+        }
+
+        <button
+          class="btn"
+          (click)="abrirModal(pelicula)">
+          Agregar a maratón
+        </button>
+      </article>
+    }
+  </div>
+</section>
+
+@if (peliculaSeleccionada) {
+  <div class="modal-fondo">
+    <div class="modal-contenido">
+      <h2>Agregar película</h2>
+
+      <p>
+        ¿A qué maratón deseas agregar
+        <strong>
+          {{ peliculaSeleccionada.titulo }}
+        </strong>?
+      </p>
+
+      @if (maratones.length === 0) {
+        <p>No tienes maratones creadas.</p>
+
+        <a
+          routerLink="/maratones"
+          class="btn">
+          Crear una maratón
+        </a>
+      } @else {
+        <div class="lista-maraton">
+          @for (
+            maraton of maratones;
+            track maraton.id
+          ) {
+            <button
+              class="btn btn-secundario"
+              [disabled]="guardando"
+              (click)="agregar(maraton)">
+              {{ maraton.nombre }}
+            </button>
+          }
+        </div>
+      }
+
+      @if (mensaje) {
+        <p class="mensaje-info">{{ mensaje }}</p>
+      }
+
+      @if (error) {
+        <p class="mensaje-error">{{ error }}</p>
+      }
+
+      <button
+        class="btn btn-danger"
+        (click)="cerrarModal()">
+        Cancelar
+      </button>
+    </div>
+  </div>
+}

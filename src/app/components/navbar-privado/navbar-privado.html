@@ -1,0 +1,26 @@
+
+<nav class="navbar">
+  <a routerLink="/peliculas" class="logo">
+    CineMet
+  </a>
+
+  <div class="enlaces">
+    <a routerLink="/peliculas">
+      Películas
+    </a>
+
+    <a routerLink="/maratones">
+      Maratones
+    </a>
+
+    <span class="usuario">
+      {{ nombreUsuario }}
+    </span>
+
+    <button
+      class="btn btn-danger"
+      (click)="cerrarSesion()">
+      Cerrar sesión
+    </button>
+  </div>
+</nav>

@@ -1,0 +1,61 @@
+
+{
+  "usuarios": [
+    {
+      "id": "1",
+      "nombre": "Ana Torres",
+      "email": "ana@cinemet.com",
+      "password": "123456"
+    },
+    {
+      "id": "2",
+      "nombre": "Luis Pérez",
+      "email": "luis@cinemet.com",
+      "password": "123456"
+    }
+  ],
+  "peliculas": [
+    {
+      "id": "1",
+      "titulo": "Interestelar",
+      "genero": "Ciencia ficción",
+      "duracion": 169,
+      "anio": 2014
+    },
+    {
+      "id": "2",
+      "titulo": "Coco",
+      "genero": "Animación",
+      "duracion": 105,
+      "anio": 2017
+    },
+    {
+      "id": "3",
+      "titulo": "Titanic",
+      "genero": "Romance",
+      "duracion": 195,
+      "anio": 1997
+    },
+    {
+      "id": "4",
+      "titulo": "El Conjuro",
+      "genero": "Terror",
+      "duracion": 112,
+      "anio": 2013
+    },
+    {
+      "id": "5",
+      "titulo": "Avatar",
+      "genero": "Ciencia ficción",
+      "duracion": 162,
+      "anio": 2009
+    },
+    {
+      "id": "6",
+      "titulo": "Toy Story",
+      "genero": "Animación",
+      "duracion": 81,
+      "anio": 1995
+    }
+  ]
+}

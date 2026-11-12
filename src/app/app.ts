@@ -1,12 +1,44 @@
-import { Component, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+
+import { Component, inject } from '@angular/core';
+import {
+  Router,
+  RouterOutlet,
+  NavigationEnd
+} from '@angular/router';
+import { filter } from 'rxjs';
+
+import { NavbarPublico } from './components/navbar-publico/navbar-publico';
+import { NavbarPrivado } from './components/navbar-privado/navbar-privado';
 
 @Component({
-  imports: [RouterOutlet],
   selector: 'app-root',
-  styleUrl: './app.css',
+  standalone: true,
+  imports: [
+    RouterOutlet,
+    NavbarPublico,
+    NavbarPrivado
+  ],
   templateUrl: './app.html',
+  styleUrl: './app.css'
 })
 export class App {
-  protected readonly title = signal('cinemet');
+  private router = inject(Router);
+
+  esPrivada = false;
+
+  constructor() {
+    this.actualizarNavegacion();
+
+    this.router.events
+      .pipe(filter(event => event instanceof NavigationEnd))
+      .subscribe(() => this.actualizarNavegacion());
+  }
+
+  private actualizarNavegacion(): void {
+    const url = this.router.url.split('?')[0];
+
+    this.esPrivada =
+      url === '/peliculas' ||
+      url === '/maratones';
+  }
 }

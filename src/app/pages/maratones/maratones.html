@@ -1,0 +1,136 @@
+
+<section>
+  <h1>🍿 Mis maratones</h1>
+
+  <p>
+    Crea listas de películas y organiza
+    tus sesiones de cine.
+  </p>
+
+  <div class="tarjeta">
+    <h2>Crear nueva maratón</h2>
+
+    <form
+      (ngSubmit)="crearMaraton()"
+      class="formulario-maraton">
+
+      <input
+        type="text"
+        name="nombre"
+        [(ngModel)]="nombre"
+        placeholder="Nombre de la maratón"
+      />
+
+      <button
+        class="btn"
+        type="submit"
+        [disabled]="guardando">
+        Crear maratón
+      </button>
+    </form>
+
+    @if (error && !seleccionada) {
+      <p class="mensaje-error">
+        {{ error }}
+      </p>
+    }
+
+    @if (mensaje) {
+      <p class="mensaje-info">
+        {{ mensaje }}
+      </p>
+    }
+  </div>
+
+  <h2>Maratones creadas</h2>
+
+  @if (cargando) {
+    <p>Cargando maratones...</p>
+  }
+
+  @if (!cargando && maratones.length === 0) {
+    <p>Aún no tienes maratones creadas.</p>
+  }
+
+  <div class="galeria">
+    @for (
+      maraton of maratones;
+      track maraton.id
+    ) {
+      <article class="tarjeta">
+        <h3>{{ maraton.nombre }}</h3>
+
+        <p>
+          Películas:
+          {{ cantidadPeliculas(maraton) }}
+        </p>
+
+        <p>
+          Duración total:
+          {{ duracionTotal(maraton) }}
+        </p>
+
+        <button
+          class="btn"
+          (click)="abrirModal(maraton)">
+          Ver maratón
+        </button>
+      </article>
+    }
+  </div>
+</section>
+
+@if (seleccionada) {
+  <div class="modal-fondo">
+    <div class="modal-contenido">
+      <h2>{{ seleccionada.nombre }}</h2>
+
+      @if (cantidadPeliculas(seleccionada) === 0) {
+        <p>
+          Esta maratón aún no tiene películas
+        </p>
+      } @else {
+        @for (
+          pelicula of obtenerPeliculas(seleccionada);
+          track pelicula.id
+        ) {
+          <div class="item-pelicula">
+            <div>
+              <strong>
+                {{ pelicula.titulo }}
+              </strong>
+
+              <p>
+                {{ pelicula.duracion }} minutos
+              </p>
+            </div>
+
+            <button
+              class="btn btn-danger"
+              [disabled]="guardando"
+              (click)="quitarPelicula(pelicula.id)">
+              Quitar
+            </button>
+          </div>
+        }
+      }
+
+      <h3>
+        Tiempo total:
+        {{ duracionTotal(seleccionada) }}
+      </h3>
+
+      @if (error) {
+        <p class="mensaje-error">
+          {{ error }}
+        </p>
+      }
+
+      <button
+        class="btn"
+        (click)="cerrarModal()">
+        Cerrar
+      </button>
+    </div>
+  </div>
+}
